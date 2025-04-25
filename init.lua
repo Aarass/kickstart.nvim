@@ -751,7 +751,10 @@ require('lazy').setup({
       signature = { enabled = true },
     },
   },
-
+  'flazz/vim-colorschemes',
+  'catppuccin/nvim',
+  'rose-pine/neovim',
+  'vague2k/vague.nvim',
   { -- You can easily change to a different colorscheme.
     -- Change the name of the colorscheme plugin below, and then
     -- change the command in the config to whatever the name of that colorscheme is.
@@ -770,7 +773,7 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'default'
+      -- vim.cmd.colorscheme 'tokyonight'
     end,
   },
 
@@ -1043,6 +1046,19 @@ vim.keymap.set('n', '<leader>E', '<cmd>Oil .<CR>')
 
 vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y', { noremap = true, silent = true })
 vim.keymap.set('i', '<C-H>', '<C-W>')
+
+-- adventurous
+-- vague
+-- rose-pine
+-- catppuccin,
+-- chance-of-storm
+-- clearance
+-- 0x7A69_dark
+-- Dark2
+-- Dim
+-- Spink
+-- Tommorow-Night-Bright
+vim.cmd.colorscheme 'adventurous'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
