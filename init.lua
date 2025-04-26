@@ -89,15 +89,6 @@ vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
--- Keybinds to make split navigation easier.
---  Use CTRL+<hjkl> to switch between windows
---
---  See `:help wincmd` for a list of all window commands
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
 -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
 -- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
@@ -881,7 +872,14 @@ require('lazy').setup({
       -- OPTIONAL:
       --   `nvim-notify` is only needed, if you want to use the notification view.
       --   If not available, we use `mini` as the fallback
-      'rcarriga/nvim-notify',
+      {
+        'rcarriga/nvim-notify',
+        config = function()
+          require('notify').setup {
+            background_colour = '#000000',
+          }
+        end,
+      },
     },
   },
   { -- Highlight, edit, and navigate code
@@ -1008,6 +1006,29 @@ require('lazy').setup({
       end, { desc = 'Select 4th item in Harpoon list' })
     end,
   },
+  {
+    'folke/persistence.nvim',
+    config = function()
+      local persistence = require 'persistence'
+      persistence:setup()
+
+      vim.keymap.set('n', '<leader>ws', function()
+        persistence.load()
+      end, { desc = 'load the session for the current directory' })
+
+      vim.keymap.set('n', '<leader>wS', function()
+        persistence.select()
+      end, { desc = 'select a session to load' })
+
+      vim.keymap.set('n', '<leader>wl', function()
+        persistence.load { last = true }
+      end, { desc = 'load the last session' })
+
+      vim.keymap.set('n', '<leader>wd', function()
+        persistence.stop()
+      end, { desc = "stop Persistence => session won't be saved on exit" })
+    end,
+  },
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
@@ -1048,6 +1069,7 @@ vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y', { noremap = true, silent = true
 vim.keymap.set('i', '<C-H>', '<C-W>')
 
 -- adventurous
+-- gruvbox
 -- vague
 -- rose-pine
 -- catppuccin,
