@@ -1029,6 +1029,17 @@ require('lazy').setup({
       end, { desc = "stop Persistence => session won't be saved on exit" })
     end,
   },
+  {
+    'atiladefreitas/dooing',
+    config = function()
+      require('dooing').setup {
+        -- your custom config here (optional)
+        window = {
+          width = 70, -- Width of the floating window
+        },
+      }
+    end,
+  },
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
