@@ -299,6 +299,11 @@ require('lazy').setup({
         --   },
         -- },
         -- pickers = {}
+        defaults = {
+          file_ignore_patterns = {
+            'node_modules',
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -661,12 +666,23 @@ require('lazy').setup({
         end
       end,
       formatters_by_ft = {
-        lua = { 'stylua' },
-        -- Conform can also run multiple formatters sequentially
+        -- Conform can run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        lua = { 'stylua' },
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
+        typescript = { 'prettierd', 'prettier', stop_after_first = true },
+        javascriptreact = { 'prettier' },
+        typescriptreact = { 'prettier' },
+        svelte = { 'prettier' },
+        css = { 'prettier' },
+        html = { 'prettier' },
+        json = { 'prettier' },
+        yaml = { 'prettier' },
+        markdown = { 'prettier' },
+        graphql = { 'prettier' },
+        python = { 'isort', 'black' },
       },
     },
   },
@@ -1033,9 +1049,12 @@ require('lazy').setup({
     'atiladefreitas/dooing',
     config = function()
       require('dooing').setup {
-        -- your custom config here (optional)
         window = {
-          width = 70, -- Width of the floating window
+          width = 70,
+          position = 'top',
+        },
+        keymaps = {
+          new_todo = 'o',
         },
       }
     end,
@@ -1073,10 +1092,10 @@ require('lazy').setup({
 })
 
 vim.keymap.del('n', 'gcc')
-vim.keymap.set('n', '<leader>e', '<cmd>Oil<CR>')
-vim.keymap.set('n', '<leader>E', '<cmd>Oil .<CR>')
+vim.keymap.set('n', '<leader>e', '<cmd>Oil<CR>', { desc = 'Explore here' })
+vim.keymap.set('n', '<leader>E', '<cmd>Oil .<CR>', { desc = 'Explore root directory' })
 
-vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'x' }, '<leader>y', '"+y', { noremap = true, silent = true })
 vim.keymap.set('i', '<C-H>', '<C-W>')
 
 -- adventurous
