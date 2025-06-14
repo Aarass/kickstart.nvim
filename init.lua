@@ -6,6 +6,14 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.mouse = 'a'
 
+vim.bo.tabstop = 2
+vim.bo.shiftwidth = 2
+vim.bo.expandtab = true
+
+-- :set tabstop=4
+-- :set shiftwidth=4
+-- :set expandtab
+
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
@@ -53,13 +61,9 @@ vim.opt.scrolloff = 5
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
--- TODO:
--- -- Clear highlights on search when pressing <Esc> in normal mode
--- --  See `:help hlsearch`
--- vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+vim.keymap.set('n', '<leader>lq', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 vim.keymap.set('n', '<leader>lk', vim.diagnostic.open_float, { desc = 'Show diagnostic info' })
 vim.keymap.set('n', '<leader>ln', function()
   local diag = vim.diagnostic.get_next()
@@ -68,7 +72,7 @@ vim.keymap.set('n', '<leader>ln', function()
   end
 end, { desc = 'Goto next diagnostic' })
 
-vim.keymap.set('n', '<leader>ln', function()
+vim.keymap.set('n', '<leader>lp', function()
   local diag = vim.diagnostic.get_prev()
   if diag then
     vim.diagnostic.jump { diagnostic = diag }
@@ -299,11 +303,6 @@ require('lazy').setup({
         --   },
         -- },
         -- pickers = {}
-        defaults = {
-          file_ignore_patterns = {
-            'node_modules',
-          },
-        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -320,6 +319,10 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       -- vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+      -- TODO:
+      --   file_ignore_patterns = {
+      --     'node_modules',
+      --   },
       vim.keymap.set('n', '<C-P>', builtin.find_files, { desc = 'Search Files' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
@@ -426,14 +429,12 @@ require('lazy').setup({
             mode = mode or 'n'
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
-
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
           map('<leader>lr', vim.lsp.buf.rename, '[R]ename')
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
-          -- map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
           map('<leader>la', vim.lsp.buf.code_action, 'Code [A]ction', { 'n', 'x' })
 
           -- Find references for the word under your cursor.
@@ -452,8 +453,6 @@ require('lazy').setup({
           --  For example, in C this would take you to the header.
           map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
-          map('gh', vim.lsp.buf.hover, '[G]oto [H]over')
-
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
           map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
@@ -461,6 +460,13 @@ require('lazy').setup({
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
           map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
+
+          map('gh', function()
+            vim.lsp.buf.hover()
+          end, '[H]over')
+
+          -- Mozda
+          -- vim.keymap.set({ 'n', 'x' }, '<Esc>', '<Esc>jk', { noremap = true, silent = true })
 
           -- Jump to the type of the word under your cursor.
           --  Useful when you're not sure what type a variable is and you want to see
@@ -726,26 +732,34 @@ require('lazy').setup({
       keymap = {
         -- <c-n>/<c-p> or <up>/<down>: Select next/previous item
         -- <c-e>: Hide menu
-        -- <c-k>: Toggle signature help
-        --
-        -- See :h blink-cmp-config-keymap for defining your own keymap
+
         preset = 'enter',
 
-        -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
-        --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
+        ['<C-f>'] = {
+          function(cmp)
+            cmp.show()
+          end,
+        },
+        ['<C-k>'] = {},
       },
 
       appearance = {
-        -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-        -- Adjusts spacing to ensure icons are aligned
         nerd_font_variant = 'mono',
         use_nvim_cmp_as_default = true,
       },
 
       completion = {
-        -- By default, you may press `<c-space>` to show the documentation.
-        -- Optionally, set `auto_show = true` to show the documentation after a delay.
-        documentation = { auto_show = true, auto_show_delay_ms = 0 },
+        documentation = {
+          auto_show = true,
+          auto_show_delay_ms = 0,
+        },
+      },
+
+      signature = {
+        enabled = true,
+        window = {
+          border = 'rounded',
+        },
       },
 
       sources = {
@@ -753,9 +767,6 @@ require('lazy').setup({
       },
 
       fuzzy = { implementation = 'rust' },
-
-      -- Shows a signature help window while you type arguments for a function
-      signature = { enabled = true },
     },
   },
   'flazz/vim-colorschemes',
@@ -865,7 +876,16 @@ require('lazy').setup({
     'folke/noice.nvim',
     event = 'VeryLazy',
     opts = {
+      routes = {
+        {
+          view = 'notify',
+          filter = { event = 'msg_showmode' },
+        },
+      },
       lsp = {
+        signature = {
+          auto_open = { enabled = false },
+        },
         -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
         override = {
           ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
@@ -875,11 +895,11 @@ require('lazy').setup({
       },
       -- you can enable a preset for easier configuration
       presets = {
-        bottom_search = true, -- use a classic bottom cmdline for search
+        bottom_search = false, -- use a classic bottom cmdline for search
         command_palette = true, -- position the cmdline and popupmenu together
         long_message_to_split = true, -- long messages will be sent to a split
         inc_rename = false, -- enables an input dialog for inc-rename.nvim
-        lsp_doc_border = false, -- add a border to hover docs and signature help
+        lsp_doc_border = true, -- add a border to hover docs and signature help
       },
     },
     dependencies = {
@@ -1059,6 +1079,20 @@ require('lazy').setup({
       }
     end,
   },
+  -- tailwind-tools.lua
+  {
+    'luckasRanarison/tailwind-tools.nvim',
+    name = 'tailwind-tools',
+    enabled = false,
+    build = ':UpdateRemotePlugins',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+      'nvim-telescope/telescope.nvim', -- optional
+      'neovim/nvim-lspconfig', -- optional
+    },
+    opts = {}, -- your configuration
+  },
+  { 'wakatime/vim-wakatime', lazy = false },
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
@@ -1092,11 +1126,23 @@ require('lazy').setup({
 })
 
 vim.keymap.del('n', 'gcc')
+vim.keymap.del({ 'n', 'x' }, 'gra')
+vim.keymap.del('n', 'grn')
+vim.keymap.del('n', 'gri')
+vim.keymap.del('n', 'grr')
+
 vim.keymap.set('n', '<leader>e', '<cmd>Oil<CR>', { desc = 'Explore here' })
 vim.keymap.set('n', '<leader>E', '<cmd>Oil .<CR>', { desc = 'Explore root directory' })
 
 vim.keymap.set({ 'n', 'x' }, '<leader>y', '"+y', { noremap = true, silent = true })
 vim.keymap.set('i', '<C-H>', '<C-W>')
+
+vim.keymap.set('n', '<M-j>', '<cmd>cnext<CR>')
+vim.keymap.set('n', '<M-k>', '<cmd>cprev<CR>')
+
+vim.keymap.set('n', '<leader>nd', '<cmd>NoiceDismiss<CR>')
+vim.keymap.set('n', '<leader>nl', '<cmd>NoiceLast<CR>')
+vim.keymap.set('n', '<leader>nh', '<cmd>NoiceTelescope<CR>')
 
 -- adventurous
 -- gruvbox
@@ -1111,6 +1157,10 @@ vim.keymap.set('i', '<C-H>', '<C-W>')
 -- Spink
 -- Tommorow-Night-Bright
 vim.cmd.colorscheme 'adventurous'
+
+vim.lsp.handlers['textDocument/signatureHelp'] = function() end
+vim.api.nvim_create_user_command('W', 'w', {})
+vim.api.nvim_create_user_command('Q', 'q', {})
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
