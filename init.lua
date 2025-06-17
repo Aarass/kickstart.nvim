@@ -984,10 +984,10 @@ require('lazy').setup({
   -- TODO: my
   -- require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
+  require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
-  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.gitsigns',
 
   {
     'stevearc/oil.nvim',
@@ -1135,6 +1135,7 @@ vim.keymap.set('n', '<leader>e', '<cmd>Oil<CR>', { desc = 'Explore here' })
 vim.keymap.set('n', '<leader>E', '<cmd>Oil .<CR>', { desc = 'Explore root directory' })
 
 vim.keymap.set({ 'n', 'x' }, '<leader>y', '"+y', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'x' }, '<leader>d', '"+d', { noremap = true, silent = true })
 vim.keymap.set('i', '<C-H>', '<C-W>')
 
 vim.keymap.set('n', '<M-j>', '<cmd>cnext<CR>')
