@@ -236,6 +236,7 @@ require('lazy').setup({
       spec = {
         { '<leader>s', group = '[S]earch' },
         { '<leader>t', group = '[T]oggle' },
+        { '<leader>n', group = '[N]oice' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       },
     },
@@ -656,7 +657,7 @@ require('lazy').setup({
       },
     },
     opts = {
-      notify_on_error = false,
+      notify_on_error = true,
       format_on_save = function(bufnr)
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
@@ -679,8 +680,8 @@ require('lazy').setup({
         lua = { 'stylua' },
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
         typescript = { 'prettierd', 'prettier', stop_after_first = true },
-        javascriptreact = { 'prettier' },
-        typescriptreact = { 'prettier' },
+        javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
         svelte = { 'prettier' },
         css = { 'prettier' },
         html = { 'prettier' },
@@ -689,6 +690,11 @@ require('lazy').setup({
         markdown = { 'prettier' },
         graphql = { 'prettier' },
         python = { 'isort', 'black' },
+      },
+      formatters = {
+        prettierd = {
+          prepend_args = { '--loglevel', 'debug' },
+        },
       },
     },
   },
@@ -1020,7 +1026,7 @@ require('lazy').setup({
       local harpoon = require 'harpoon'
       harpoon:setup()
 
-      vim.keymap.set('n', '<leader>ah', function()
+      vim.keymap.set('n', '<leader>ha', function()
         harpoon:list():add()
       end, { desc = '[A]dd buffer to [H]arpoon' })
 
@@ -1093,6 +1099,16 @@ require('lazy').setup({
     opts = {}, -- your configuration
   },
   { 'wakatime/vim-wakatime', lazy = false },
+  {
+    'kwkarlwang/bufjump.nvim',
+    config = function()
+      require('bufjump').setup {
+        forward_key = '<M-i>',
+        backward_key = '<M-o>',
+        on_success = nil,
+      }
+    end,
+  },
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
