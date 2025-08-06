@@ -1153,7 +1153,9 @@ vim.keymap.set('n', '<leader>E', '<cmd>Oil .<CR>', { desc = 'Explore root direct
 
 vim.keymap.set({ 'n', 'x' }, '<leader>y', '"+y', { noremap = true, silent = true })
 vim.keymap.set({ 'n', 'x' }, '<leader>d', '"+d', { noremap = true, silent = true })
+
 vim.keymap.set('i', '<C-H>', '<C-W>')
+vim.keymap.set('c', '<C-H>', '<C-W>', { noremap = true })
 
 vim.keymap.set('n', '<M-j>', '<cmd>cnext<CR>')
 vim.keymap.set('n', '<M-k>', '<cmd>cprev<CR>')
@@ -1161,6 +1163,9 @@ vim.keymap.set('n', '<M-k>', '<cmd>cprev<CR>')
 vim.keymap.set('n', '<leader>nd', '<cmd>NoiceDismiss<CR>')
 vim.keymap.set('n', '<leader>nl', '<cmd>NoiceLast<CR>')
 vim.keymap.set('n', '<leader>nh', '<cmd>NoiceTelescope<CR>')
+
+vim.keymap.set('n', '<S-t>', '<cmd>tabnext<CR>')
+vim.keymap.set('n', '<C-t>', '<cmd>tabnew<CR>')
 
 -- adventurous
 -- gruvbox
@@ -1179,6 +1184,12 @@ vim.cmd.colorscheme 'adventurous'
 vim.lsp.handlers['textDocument/signatureHelp'] = function() end
 vim.api.nvim_create_user_command('W', 'w', {})
 vim.api.nvim_create_user_command('Q', 'q', {})
+
+vim.keymap.set('n', '<leader>pa', function()
+  local path = vim.fn.expand '%:p'
+  vim.fn.setreg('+', path)
+  print('file:', path)
+end)
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
