@@ -690,6 +690,7 @@ require('lazy').setup({
         markdown = { 'prettier' },
         graphql = { 'prettier' },
         python = { 'isort', 'black' },
+        java = { 'google-java-format' },
       },
       formatters = {
         prettierd = {
