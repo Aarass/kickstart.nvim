@@ -1121,6 +1121,9 @@ require('lazy').setup({
       render_modes = { 'n', 'c', 't' },
     },
   },
+  {
+    'sainnhe/gruvbox-material',
+  },
   { 'https://github.com/mbbill/undotree' },
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
@@ -1169,8 +1172,8 @@ vim.keymap.set({ 'n', 'x' }, '<leader>d', '"+d', { noremap = true, silent = true
 vim.keymap.set('i', '<C-H>', '<C-W>')
 vim.keymap.set('c', '<C-H>', '<C-W>', { noremap = true })
 
-vim.keymap.set('n', '<M-j>', '<cmd>cnext<CR>')
-vim.keymap.set('n', '<M-k>', '<cmd>cprev<CR>')
+vim.keymap.set('n', '<M-n>', '<cmd>cnext<CR>')
+vim.keymap.set('n', '<M-p>', '<cmd>cprev<CR>')
 
 vim.keymap.set('n', '<leader>nd', '<cmd>NoiceDismiss<CR>')
 vim.keymap.set('n', '<leader>nl', '<cmd>NoiceLast<CR>')
@@ -1191,7 +1194,6 @@ vim.keymap.set('n', '<C-t>', '<cmd>tabnew<CR>')
 -- Dim
 -- Spink
 -- Tommorow-Night-Bright
-vim.cmd.colorscheme 'adventurous'
 
 vim.lsp.handlers['textDocument/signatureHelp'] = function() end
 vim.api.nvim_create_user_command('W', 'w', {})
@@ -1202,6 +1204,26 @@ vim.keymap.set('n', '<leader>pa', function()
   vim.fn.setreg('+', path)
   print('file:', path)
 end)
+
+vim.api.nvim_create_autocmd('ColorScheme', {
+  pattern = '*',
+  callback = function()
+    vim.cmd [[
+      highlight Normal guibg=none ctermbg=none
+      highlight NormalNC guibg=none ctermbg=none
+      highlight SignColumn guibg=none ctermbg=none
+      highlight LineNr guibg=none ctermbg=none
+      highlight Folded guibg=none ctermbg=none
+      highlight NonText guibg=none ctermbg=none
+      highlight VertSplit guibg=none ctermbg=none
+      highlight EndOfBuffer guibg=none ctermbg=none
+    ]]
+  end,
+})
+
+-- vim.cmd.colorscheme 'adventurous'
+-- vim.cmd.colorscheme 'gruvbox'
+vim.cmd.colorscheme 'gruvbox-material'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
