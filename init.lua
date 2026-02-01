@@ -1121,10 +1121,7 @@ require('lazy').setup({
       render_modes = { 'n', 'c', 't' },
     },
   },
-  {
-    'sainnhe/gruvbox-material',
-  },
-  { 'https://github.com/mbbill/undotree' },
+  { 'sainnhe/gruvbox-material' },
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
@@ -1182,19 +1179,6 @@ vim.keymap.set('n', '<leader>nh', '<cmd>NoiceTelescope<CR>')
 vim.keymap.set('n', '<S-t>', '<cmd>tabnext<CR>')
 vim.keymap.set('n', '<C-t>', '<cmd>tabnew<CR>')
 
--- adventurous
--- gruvbox
--- vague
--- rose-pine
--- catppuccin,
--- chance-of-storm
--- clearance
--- 0x7A69_dark
--- Dark2
--- Dim
--- Spink
--- Tommorow-Night-Bright
-
 vim.lsp.handlers['textDocument/signatureHelp'] = function() end
 vim.api.nvim_create_user_command('W', 'w', {})
 vim.api.nvim_create_user_command('Q', 'q', {})
@@ -1206,25 +1190,7 @@ vim.keymap.set('n', '<leader>pa', function()
   print(path)
 end)
 
-vim.api.nvim_create_autocmd('ColorScheme', {
-  pattern = '*',
-  callback = function()
-    vim.cmd [[
-      highlight Normal guibg=none ctermbg=none
-      highlight NormalNC guibg=none ctermbg=none
-      highlight SignColumn guibg=none ctermbg=none
-      highlight LineNr guibg=none ctermbg=none
-      highlight Folded guibg=none ctermbg=none
-      highlight NonText guibg=none ctermbg=none
-      highlight VertSplit guibg=none ctermbg=none
-      highlight EndOfBuffer guibg=none ctermbg=none
-    ]]
-  end,
-})
-
--- vim.cmd.colorscheme 'adventurous'
--- vim.cmd.colorscheme 'gruvbox'
-vim.cmd.colorscheme 'gruvbox-material'
+require('custom.colorschema').setup()
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
