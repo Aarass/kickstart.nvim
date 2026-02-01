@@ -1201,8 +1201,9 @@ vim.api.nvim_create_user_command('Q', 'q', {})
 
 vim.keymap.set('n', '<leader>pa', function()
   local path = vim.fn.expand '%:p'
+  path = path:gsub('^oil://', '')
   vim.fn.setreg('+', path)
-  print('file:', path)
+  print(path)
 end)
 
 vim.api.nvim_create_autocmd('ColorScheme', {
