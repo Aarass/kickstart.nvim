@@ -1073,21 +1073,6 @@ require('lazy').setup({
     end,
   },
   {
-    'atiladefreitas/dooing',
-    config = function()
-      require('dooing').setup {
-        window = {
-          width = 70,
-          position = 'top',
-        },
-        keymaps = {
-          new_todo = 'o',
-        },
-      }
-    end,
-  },
-  -- tailwind-tools.lua
-  {
     'luckasRanarison/tailwind-tools.nvim',
     name = 'tailwind-tools',
     enabled = false,
@@ -1099,7 +1084,6 @@ require('lazy').setup({
     },
     opts = {}, -- your configuration
   },
-  { 'wakatime/vim-wakatime', lazy = false },
   {
     'kwkarlwang/bufjump.nvim',
     config = function()
