@@ -462,9 +462,9 @@ require('lazy').setup({
           --  Similar to document symbols, except searches over your entire project.
           map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
 
-          map('gh', function()
-            vim.lsp.buf.hover()
-          end, '[H]over')
+          -- map('gh', function()
+          --   vim.lsp.buf.hover()
+          -- end, '[H]over')
 
           -- Mozda
           -- vim.keymap.set({ 'n', 'x' }, '<Esc>', '<Esc>jk', { noremap = true, silent = true })
@@ -1191,6 +1191,7 @@ vim.keymap.set('n', '<leader>pa', function()
 end)
 
 require('custom.colorschema').setup()
+require('custom.hover').setup()
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
