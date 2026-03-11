@@ -25,6 +25,9 @@ return {
       highlight NonText guibg=none ctermbg=none
       highlight VertSplit guibg=none ctermbg=none
       highlight EndOfBuffer guibg=none ctermbg=none
+
+      highlight Visual guibg=#d5d1b9 ctermbg=236
+      highlight VisualNOS guibg=#d5d1b9 ctermbg=236
     ]]
       end,
     })
